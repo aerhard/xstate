@@ -4,8 +4,6 @@ on: pull_request
 
 jobs:
   release:
-    if: github.repository == 'statelyai/xstate'
-
     timeout-minutes: 20
 
     runs-on: ubuntu-latest
