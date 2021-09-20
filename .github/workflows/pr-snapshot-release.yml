@@ -1,4 +1,4 @@
-name: Snapshot Release
+name: PR Snapshot Release
 
 on: pull_request
 
