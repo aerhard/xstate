@@ -1,0 +1,33 @@
+name: Snapshot Release
+
+on: pull_request
+
+jobs:
+  release:
+    if: github.repository == 'statelyai/xstate'
+
+    timeout-minutes: 20
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          version: 14.x
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Prepare artifacts
+        run: yarn build
+
+      - name: Release a snapshot
+        run: |
+          yarn changeset version --snapshot pr${{ github.event.pull_request.number }}
+          yarn changeset publish --tag pr${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
